@@ -1,9 +1,9 @@
+"""
+Basic sudoku solver for 9 x 9 grids.
+"""
 from math import floor
-import pdb
-from time import sleep
-from datetime import datetime
 
-grid = [
+GRID = [
     [0,0,0,0,1,0,0,0,0],
     [8,3,0,0,0,0,2,0,0],
     [0,0,0,9,5,0,7,0,4],
@@ -16,15 +16,15 @@ grid = [
 ]
 
 def is_possible(row_num, col_num, num):
-
-    global grid
-
+    """
+    Determine if the supplied number is valid in the position.
+    """
     for col in range(9):
-        if grid[row_num][col] == num:
+        if GRID[row_num][col] == num:
             return False
 
     for row in range(9):
-        if grid[row][col_num] == num:
+        if GRID[row][col_num] == num:
             return False
 
     row_start = floor(row_num / 3) *3
@@ -33,52 +33,50 @@ def is_possible(row_num, col_num, num):
     col_end = col_start + 3
     for row in range(row_start,row_end):
         for col in range(col_start, col_end):
-            if grid[row][col] == num:
+            if GRID[row][col] == num:
                 return False
 
     return True
 
-def coordinates(position):
-    row = floor(position/9)
-    column = position % 9
-    return (row, column)
-
 def print_grid():
-    global grid
+    """
+    Print out the grid.
+    """
     print("---------------")
     for num in range(9):
-        print(grid[num])
+        print(GRID[num])
     print("---------------")
 
 def find_blank():
-    global grid
-    for pos in range(81):
-        row, col = coordinates(pos)
-
-        if grid[row][col] == 0:
-            return (row, col)
+    """
+    Return the coordinates return the coordinates of the first blank space.
+    """
+    for row in range(9):
+        for col in range(9):
+            if GRID[row][col] == 0:
+                return (row, col)
     return None
 
 def solve():
-    global grid
-
+    """
+    Main solving routine using a backtracking algorithm.
+    """
     blank = find_blank()
-    
+
     if not blank:
         return True
     row, col = blank
 
     for number in range(1,10):
         if is_possible(row, col, number):
-            grid[row][col] = number
+            GRID[row][col] = number
             if solve():
                 return True
-    grid[row][col] = 0
+    GRID[row][col] = 0
 
     return False
-start_time = datetime.now()
 
-solve()
-print("Sollution:")
-print_grid()
-                  
+if __name__ == "__main__":
+    solve()
+    print("Sollution:")
+    print_grid()
