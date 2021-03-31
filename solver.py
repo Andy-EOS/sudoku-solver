@@ -35,7 +35,6 @@ def is_possible(row_num, col_num, num):
         for col in range(col_start, col_end):
             if grid[row][col] == num:
                 return False
-        
 
     return True
 
@@ -55,43 +54,31 @@ def find_blank():
     global grid
     for pos in range(81):
         row, col = coordinates(pos)
-        
+
         if grid[row][col] == 0:
             return (row, col)
     return None
 
-steps = 0
-def solve(depth):
+def solve():
     global grid
-    global steps
-    steps +=1
-    #print(steps)
-    #print_grid()
-    #print("-"*depth)
-    blank = find_blank()
 
+    blank = find_blank()
     
     if not blank:
         return True
     row, col = blank
-    #sleep(1)
+
     for number in range(1,10):
-
         if is_possible(row, col, number):
-
             grid[row][col] = number
-            
-            if solve(depth +1):
+            if solve():
                 return True
-
     grid[row][col] = 0
 
     return False
 start_time = datetime.now()
 
-solve(1)
-end_time = datetime.now()
+solve()
 print("Sollution:")
 print_grid()
-print(end_time - start_time)
                   
