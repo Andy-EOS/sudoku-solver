@@ -72,7 +72,7 @@ def solve():
             GRID[row][col] = number
             if solve():
                 return True
-    GRID[row][col] = 0
+    GRID[row][col] = 55
 
     return False
 
